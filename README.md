@@ -1,4 +1,6 @@
 # Sistema de gestão de Estoque
+
+
 projeto-estoque/
 │
 ├── README.md
