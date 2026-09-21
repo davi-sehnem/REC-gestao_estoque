@@ -15,8 +15,10 @@
 
     <h2>Gestão de Estoque</h2>
 
+    <br>
+
     <button type="button"
-        class="btn btn-outline-primary"
+        class="btn btn-primary"
         onclick="window.location.href='public/adicionar.php'">
         Cadastrar Produto
     </button>
@@ -47,7 +49,12 @@
             include 'infra/conexao.php';
 
             $sql = "SELECT * FROM produto";
-            $resultado = $conn->query($sql);
+
+            $stmt = mysqli_prepare($conn, $sql);
+
+            mysqli_stmt_execute($stmt);
+
+            $resultado = mysqli_stmt_get_result($stmt);
 
             while ($produto = $resultado->fetch_assoc()) {
             ?>
@@ -70,13 +77,11 @@
 
                     <td>
 
-                        <!-- EDITAR -->
                         <a href="public/editar.php?id=<?php echo $produto['id']; ?>"
                             class="btn btn-outline-primary">
                             Editar
                         </a>
 
-                        <!-- EXCLUIR -->
                         <a href="public/excluir.php?id=<?php echo $produto['id']; ?>"
                             class="btn btn-outline-danger"
                             onclick="return confirm('Tem certeza que deseja excluir este produto?');">
@@ -90,6 +95,8 @@
             <?php
             }
 
+            mysqli_stmt_close($stmt);
+
             ?>
 
         </tbody>
@@ -97,7 +104,7 @@
     </table>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"
-        integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrVwcXK/BmnVDxM+D2scQbITxI"
+        integrity="sha384-FKyoZ0F3crGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrVwcXK/BmnVDxM+D2scQbITxI"
         crossorigin="anonymous">
     </script>
 

@@ -4,17 +4,26 @@ include '../infra/conexao.php';
 
 $id = isset($_GET["id"]) ? (int)$_GET["id"] : 0;
 
-// BUSCAR PRODUTO
-$sql = "SELECT * FROM produto WHERE id = $id";
-$resultado = $conn->query($sql);
+
+$sql = "SELECT * FROM produto WHERE id = ?";
+
+$stmt = mysqli_prepare($conn, $sql);
+
+mysqli_stmt_bind_param($stmt, "i", $id);
+
+mysqli_stmt_execute($stmt);
+
+$resultado = mysqli_stmt_get_result($stmt);
 
 $produto = $resultado->fetch_assoc();
+
+mysqli_stmt_close($stmt);
 
 if (!$produto) {
     die("Produto não encontrado.");
 }
 
-// EDITAR PRODUTO
+
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     $novo_nome = $_POST["nome"] ?? "";
@@ -59,11 +68,68 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         if (mysqli_stmt_execute($stmt)) {
             header("Location: ../index.php");
             exit();
-        } else {
-            echo "Erro ao atualizar o produto: " . mysqli_stmt_error($stmt);
         }
 
         mysqli_stmt_close($stmt);
     }
 }
 ?>
+
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Editar Produto</title>
+</head>
+
+<body>
+
+    <h2>Editar produto</h2>
+
+    <form action="editar.php?id=<?php echo $id; ?>" method="POST">
+
+        <label for="nome">Nome</label>
+        <input type="text" name="nome" value="<?php echo $produto['nome']; ?>">
+
+        <br><br>
+
+        <label for="categoria">Categoria</label>
+        <input type="text" name="categoria" value="<?php echo $produto['categoria']; ?>">
+
+        <br><br>
+
+        <label for="descrição">Descrição</label>
+        <input type="text" name="descrição" value="<?php echo $produto['descrição']; ?>">
+
+        <br><br>
+
+        <label for="preço">Preço</label>
+        <input type="text" name="preço" value="<?php echo $produto['preço']; ?>">
+
+        <br><br>
+
+        <label for="quantidade">Quantidade</label>
+        <input type="text" name="quantidade" value="<?php echo $produto['quantidade']; ?>">
+
+        <br><br>
+
+        <label for="validade">Validade</label>
+        <input type="text" name="validade" value="<?php echo $produto['validade']; ?>">
+
+        <br><br>
+
+        <button type="submit">Enviar</button>
+
+    </form>
+
+    <br>
+
+    <button type="button" onclick="window.location.href='../index.php'">
+        Voltar
+    </button>
+
+</body>
+
+</html>
