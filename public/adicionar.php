@@ -5,12 +5,12 @@ include '../infra/conexao.php';
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $nome = $_POST['nome'];
     $categoria = $_POST['categoria'];
-    $descricao = $_POST['descricao'];
-    $preco = $_POST['preco'];
+    $descrição = $_POST['descrição'];
+    $preço = $_POST['preço'];
     $quantidade = $_POST['quantidade'];
     $validade = $_POST['validade'];
 
-    $sql = "INSERT INTO produto (nome, categoria, descricao, preco, quantidade, validade) VALUES ('$nome', '$categoria', '$descricao', '$preco', '$quantidade', '$validade')";
+    $sql = "INSERT INTO produto (nome, categoria, descrição, preço, quantidade, validade) VALUES ('$nome', '$categoria', '$descrição', '$preço', '$quantidade', '$validade')";
     if ($conn->query($sql) === TRUE) {
         echo "Novo cliente cadastrado com sucesso!";
     } else {
@@ -26,32 +26,32 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Adicionar Novo Usuario</title>
+    <title>Adicionar Novo Produto</title>
 </head>
 <body>
-    <h2>Adicionar Novo Cliente</h2>
+    <h2>Adicionar Novo Produto</h2>
     <form method="POST">
         <label for="nome">Nome:</label>
         <input type="text" id="nome" name="nome" required>
         <br><br>
-        <label for="email">Categoria:</label>
-        <input type="email" id="email" name="email">
+        <label for="categoria">Categoria:</label>
+        <input type="text" id="categoria" name="categoria">
         <br><br>
-        <label for="telefone">Descrição:</label>
-        <input type="text" id="telefone" name="telefone">
+        <label for="descrição">Descrição:</label>
+        <input type="text" id="descrição" name="descrição">
         <br><br>
-        <label for="endereco">Preco:</label>
-        <input type="text" id="endereco" name="endereco">
+        <label for="preço">Preço:</label>
+        <input type="text" id="preço" name="preço">
         <br><br>
-        <label for="endereco">Quantidade:</label>
-        <input type="text" id="endereco" name="endereco">
+        <label for="quantidade">Quantidade:</label>
+        <input type="text" id="quantidade" name="quantidade">
         <br><br>
-        <label for="endereco">Validade:</label>
-        <input type="text" id="endereco" name="endereco">
+        <label for="validade">Validade:</label>
+        <input type="date" id="validade" name="validade">
         <br><br>
         <button type="submit">Cadastrar Produto</button>
     </form> 
     <br>  
-    <button type="button" onclick="window.location.href='../../index.php'">Voltar</button>
+    <button type="button" onclick="window.location.href='../index.php'">Voltar</button>
 </body>
 </html>
